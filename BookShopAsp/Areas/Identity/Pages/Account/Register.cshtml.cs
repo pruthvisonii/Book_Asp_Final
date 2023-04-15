@@ -31,11 +31,12 @@ namespace BookShopAsp.Areas.Identity.Pages.Account
         private readonly IEmailSender _emailSender;
         RoleManager<IdentityRole> _roleManager;
         public RegisterModel(
-            UserManager<IdentityUser> userManager,
-            IUserStore<IdentityUser> userStore,
-            SignInManager<IdentityUser> signInManager,
-            ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+    UserManager<IdentityUser> userManager,
+    IUserStore<IdentityUser> userStore,
+    SignInManager<IdentityUser> signInManager,
+    ILogger<RegisterModel> logger,
+    IEmailSender emailSender,
+    RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -43,6 +44,7 @@ namespace BookShopAsp.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _roleManager = roleManager;
         }
 
         /// <summary>
@@ -118,8 +120,16 @@ namespace BookShopAsp.Areas.Identity.Pages.Account
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
-                await _userManager.AddToRolesAsync(user, new string[] {"Client"});    
-                
+                // Check if the "Client" role exists, and create it if it doesn't
+                if (!await _roleManager.RoleExistsAsync("Client"))
+                {
+                    var role = new IdentityRole("Client");
+                    await _roleManager.CreateAsync(role);
+                }
+
+                await _userManager.AddToRoleAsync(user, "Client");
+
+
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
