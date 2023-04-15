@@ -1,0 +1,43 @@
+﻿@model BookShopAsp.Models.Order
+
+@{
+    ViewData["Title"] = "Addendum";
+}
+
+<h1>Добавление</h1>
+
+<h4>Заказ</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="MakeOrder">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+             <div class="form-floating">
+               <input asp-for="UserId" value=@User.Identity?.Name class="form-control" disabled/>
+                <label asp-for="UserId" class="form-label"></label>
+                
+            </div>
+            <div class="form-group">
+                <label asp-for="Address" class="control-label">Адрес</label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BookId" class="control-label">Книга</label>
+                <input  value="@ViewData["bookName"]" class="form-control" disabled>
+            </div>
+            <div class="form-group">
+                <label asp-for="Date" class="control-label">Дата</label>
+                <input asp-for="Date" class="form-control" />
+                <span asp-validation-for="Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Add" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

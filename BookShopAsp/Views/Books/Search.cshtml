@@ -1,0 +1,55 @@
+﻿@model IEnumerable<BookShopAsp.Models.Book>
+
+@{
+    ViewData["Title"] = "Library";
+}
+
+<h1>Результаты по вашему поиску "@ViewData["search"]":</h1>
+
+    
+        @if (Model.ToList().Count() == 0) {
+            <h1>не найдены </h1>
+        }
+        @if (Model.ToList().Count() > 0)
+        {
+            <table class="table">
+    <thead>
+        <tr>
+            <th>
+                    Name
+            </th>
+            <th>
+                    Author
+            </th>
+            <th>
+                    Genre
+            </th>
+            <th>
+                    Price
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Author)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Genre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                </tr>
+       
+            }
+             </tbody>
+ </table>
+        }
+

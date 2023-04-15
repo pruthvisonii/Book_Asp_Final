@@ -1,0 +1,91 @@
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+}
+
+footer {
+    background: aqua;
+}
+
+header {
+    background-color: #4b4a45;
+    display: block;
+    z-index: 2;
+}
+
+.bg-black {
+    --bs-bg-opacity: 1;
+    background-color: #0A1720;
+}
+
+.navbar-light .navbar-nav .nav-link {
+    color: aqua;
+}
+
+.text-dark {
+    --bs-text-opacity: 1;
+    color: #0A1720;
+}
+
+.text-aqua {
+    color: aqua;
+    border:#000;
+}
+.text-aqua:hover{
+    color:#0CC
+}
+.nav-link {
+    color: aqua;
+    text-shadow: 1px 0 1px #000, 0 1px 1px #000, -1px 0 1px #000, 0 -1px 1px #000;
+}
+.nav-link:hover{
+    color:#0CC
+}
+
+li.nav-item:hover {
+    color: aliceblue;
+}
+
+a.nav-item:hover {
+    color: aliceblue
+}
+
+.nav-text {
+    display: block;
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+}
+
+
+.btn-primary {
+    color: #000;
+    background-color: #0FF;
+    border-color: #000;
+}
+back-aqua{
+    background-color:#0FF
+}
+.btn-primary:hover {
+        color: #000;
+        background-color: #0CC;
+        border-color: #000;
+}
+.btn-primary:focus {
+        color: #000;
+        background-color: #0CC;
+        border-color: #000;
+}

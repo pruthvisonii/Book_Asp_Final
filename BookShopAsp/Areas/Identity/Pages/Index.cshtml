@@ -1,0 +1,63 @@
+﻿@page
+@using BookShopAsp.Areas.Pages
+@model IndexModel
+@{
+    ViewData["Title"] = "Чат";
+}
+    @if (User.IsInRole("ClientBannedInChat"))
+{
+    <h2>Dear @User.Identity?.Name, in this section you could chat with other users of the platform, but you were a bad boy :( </h2><br />
+}
+else
+{
+        <h2>Dear @User.Identity?.Name, in this section you can chat with other users of the platform. Please be kind to each other :) </h2>
+
+    <br />
+    <div class="input-group" id="inputForm">
+        <input class="form-control" type="text" id="message" placeholder="Введите сообщение"/>
+        <button type="submit" class="btn btn-primary" id="sendBtn"> Отправить </button>
+    </div>
+    <div id="chatroom"></div>
+    <script src="js/signalr/dist/browser/signalr.min.js"></script>
+    <script>
+        const hubConnection = new signalR.HubConnectionBuilder()
+            .withUrl("/chat")
+            .build();
+ 
+        let userName = "@User.Identity?.Name";
+        // получение сообщения от сервера
+        hubConnection.on('Send', function (message, userName) {
+  
+            // создаем элемент <b> для имени пользователя
+            let userNameElem = document.createElement("b");
+            userNameElem.appendChild(document.createTextNode(userName + ': '));
+  
+            // создает элемент <p> для сообщения пользователя
+            let elem = document.createElement("p");
+            elem.appendChild(userNameElem);
+            elem.appendChild(document.createTextNode(message));
+  
+            var firstElem = document.getElementById("chatroom").firstChild;
+            document.getElementById("chatroom").insertBefore(elem, firstElem);
+  
+        });      
+        document.getElementById("sendBtn").addEventListener("click", function (e) {
+            let message = document.getElementById("message").value;
+            if(message!=""){
+            document.getElementById("message").value='';
+            hubConnection.invoke("Send", message, userName);
+            }
+        });
+        document.addEventListener('keydown', function(event) {
+            if (event.code == 'Enter') {
+            let message = document.getElementById("message").value;
+            if(message!=""){
+            document.getElementById("message").value='';
+            hubConnection.invoke("Send", message, userName);
+            }
+            }
+});
+        hubConnection.start();
+    </script>
+}
+
